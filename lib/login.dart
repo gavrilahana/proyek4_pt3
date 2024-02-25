@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'package:shrine/app.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -73,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                     _passwordController.clear();
                   },
                   style: TextButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.secondary,
+             //     primary: Theme.of(context).colorScheme.secondary,
                   shape: const BeveledRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(7.0)),
                   ),

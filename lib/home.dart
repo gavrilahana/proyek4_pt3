@@ -20,17 +20,41 @@ import 'model/product.dart';
 import 'model/products_repository.dart';
 
 class HomePage extends StatelessWidget {
-  // TODO: Make a collection of cards (102)
-  // TODO: Add a variable for Category (104)vv
   final Category category;
 
   const HomePage({this.category = Category.all, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Return an AsymmetricView (104)
-    return AsymmetricView(
-      products: ProductsRepository.loadProducts(category),
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: AsymmetricView(
+              products: ProductsRepository.loadProducts(category),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(16.0),
+            color: Colors.grey[200],
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    '© 2024 StyleSync --'
+                    'by Gavrila Hana Simanjuntak (221511011)',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -82,62 +106,66 @@ class HomePage extends StatelessWidget {
 
         // Replace this entire method
         List<Card> _buildGridCards(BuildContext context) {
-          List<Product> products = ProductsRepository.loadProducts(Category.all);
+  List<Product> products = ProductsRepository.loadProducts(Category.all);
 
-          if (products.isEmpty) {
-            return const <Card>[];
-          }
+  if (products.isEmpty) {
+    return const <Card>[];
+  }
 
-          final ThemeData theme = Theme.of(context);
-          final NumberFormat formatter = NumberFormat.simpleCurrency(
-              locale: 'id_ID');
+  final ThemeData theme = Theme.of(context);
+  final NumberFormat formatter = NumberFormat.simpleCurrency(locale: 'id_ID');
 
-          return products.map((product) {
-            return Card(
-              clipBehavior: Clip.antiAlias,
-              // TODO: Adjust card heights (103)
-              elevation: 0.0,
-              child: Column(
-                // TODO: Center items on the card (103)
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 18 / 11,
-                    child: Image.asset(
-                      product.assetName,
-                      package: product.assetPackage,
-                    // TODO: Adjust the box size (102)vv
-                    fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                      child: Column(
-                      // TODO: Align labels to the bottom and center (103)
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                        // TODO: Change innermost Column (103)
-                        children: <Widget>[
-                        // TODO: Handle overflowing labels (103)
-                        Text(
-                            product.name,
-                            style: theme.textTheme.button,
-                            softWrap: false,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          const SizedBox(height: 4.0),
-                          Text(
-                            formatter.format(product.price),
-                            style: theme.textTheme.caption,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+  return products.map((product) {
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      elevation: 0.0,
+      child: AnimatedOpacity(
+        duration: Duration(milliseconds: 500),
+        opacity: 1.0, // Sesuaikan dengan nilai yang sesuai, misalnya 0.0 untuk efek fade in
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 18 / 11,
+              child: Image.asset(
+                product.assetName,
+                package: product.assetPackage,
+                fit: BoxFit.fitWidth,
               ),
-            );
-          }).toList();
-        }
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      product.name,
+                      style: theme.textTheme.button,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      formatter.format(product.price),
+                      style: theme.textTheme.caption,
+                    ),
+                    SizedBox(height: 8.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Tindakan saat tombol ditekan
+                      },
+                      child: Text('Beli'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }).toList();
+}
